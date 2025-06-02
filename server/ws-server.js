@@ -1,6 +1,13 @@
 const chat = require('ws');
+const express = require('express');
+const http = require('http');
 
-const wss = new chat.Server({port : 1021});
+const port = process.env.PORT || 1021;
+
+const app = express();
+
+const server = http.createServer(app);
+const wss = new chat.Server({server});
 
 const mem = new Set();
 wss.on('connection' , (ws) => {
@@ -22,4 +29,12 @@ wss.on('connection' , (ws) => {
    ws.on('close' , () => {
      console.log("client disconnected");
    })
+})
+
+app.get('/' , (req , res) => {
+   res.send('websocket server is running')
+})
+
+server.listen(port , () => {
+   console.log(`server is running on port 1021`);
 })

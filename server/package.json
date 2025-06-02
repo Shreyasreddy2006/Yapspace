@@ -5,8 +5,7 @@
   "main": "ws-server.js",
   "scripts": {
     "start": "node ws-server.js",
-    "dev": "nodemon ws-server.js",
-    "vercel-build": "echo 'Building for Vercel'"
+    "dev": "nodemon ws-server.js"
   },
   "keywords": [],
   "author": "",
