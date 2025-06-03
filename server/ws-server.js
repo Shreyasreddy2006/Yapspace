@@ -33,8 +33,8 @@ wss.on('connection' , (ws) => {
    });
 });
 
-const port = 1021;
+const port = process.env.PORT || 1021;
 
 server.listen(port , () => {
-     console.log("server started");
+     console.log("server started on port " + port);
 });
