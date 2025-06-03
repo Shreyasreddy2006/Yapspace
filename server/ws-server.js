@@ -1,40 +1,40 @@
-const chat = require('ws');
 const express = require('express');
 const http = require('http');
-
-const port = process.env.PORT || 1021;
+const WebSocket = require('ws');
 
 const app = express();
 
-const server = http.createServer(app);
-const wss = new chat.Server({server});
+app.get('/' , (req , res) => {
+   res.send("Server initiated successfully")
+});
 
-const mem = new Set();
+const server = http.createServer(app);
+
+const wss = new WebSocket.Server({server});
+
+const people = new Set();
+
 wss.on('connection' , (ws) => {
-   mem.add(ws);
+   people.add(ws);
+
+//    console.log(ws);
 
    ws.on('message' , (msg) => {
-      mem.forEach((me) => {
-        if(me !== ws){
-           me.send(`${msg}`)
-        }
-      })
-      console.log(msg);
-   })
-   
-   ws.on('error' , (err) => {
-     console.log(err);
-   })
+       people.forEach((mem) => {
+          if(mem != ws){
+             ws.send(`${ws} ${msg}`);
+          }
+       });
+       console.log(msg);
+   });
 
-   ws.on('close' , () => {
-     console.log("client disconnected");
-   })
-})
+   ws.on('close', () => {
+      console.log(`${ws} disconnected`);
+   });
+});
 
-app.get('/' , (req , res) => {
-   res.send('websocket server is running')
-})
+const port = 1021;
 
 server.listen(port , () => {
-   console.log(`server is running on port 1021`);
-})
+     console.log("server started");
+});
