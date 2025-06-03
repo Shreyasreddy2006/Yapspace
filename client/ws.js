@@ -1,4 +1,4 @@
-const ws = new WebSocket('https://render.com/docs/web-services#port-binding');
+const ws = new WebSocket('https://render.com/docs/web-services');
 const msgdiv = document.querySelector(".TextDiv");
 const input = document.querySelector("#input");
 const send = document.querySelector("#Send");
