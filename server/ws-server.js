@@ -20,7 +20,7 @@ wss.on('connection' , (ws) => {
 
    ws.on('message' , (msg) => {
        people.forEach((mem) => {
-          if(mem !== ws){
+          if(mem !== ws && mem.readyState === webSocket.OPEN){
              ws.send(`${msg}`);
           }
        });
