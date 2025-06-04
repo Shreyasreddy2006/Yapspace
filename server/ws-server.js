@@ -1,36 +1,20 @@
-require('dotenv').config();
-const express = require('express');
-const http = require('http');
 const WebSocket = require('ws');
 
-const app = express();
+const port = process.env.PORT || 1021;
 
-app.get('/' , (req , res) => {
-   res.send("Server initiated successfully")
-});
-
-const server = http.createServer(app);
-
-const wss = new WebSocket.Server({server});
-
-const people = new Set();
+const wss = new WebSocket.Server({port : port});
 
 wss.on('connection' , (ws) => {
-   people.add(ws);
 
    ws.on('message' , (msg) => {
-       people.forEach((mem) => {
-          if(mem !== ws && mem.readyState === webSocket.OPEN){
-             ws.send(`${msg}`);
-          }
-       });
+      wss.clients.forEach((client) => {
+         if(client !== ws && client.readyState === WebSocket.OPEN){
+            client.send(`${msg}`);
+         }
+      });
    });
 
    ws.on('close', () => {
       ws.send(`${ws} Disconnected`);
    });
 });
-
-const port = process.env.PORT || 1021;
-
-server.listen(port);
