@@ -18,24 +18,19 @@ const people = new Set();
 wss.on('connection' , (ws) => {
    people.add(ws);
 
-//    console.log(ws);
-
    ws.on('message' , (msg) => {
        people.forEach((mem) => {
-          if(mem != ws){
-             ws.send(`${ws} ${msg}`);
+          if(mem !== ws){
+             ws.send(`${msg}`);
           }
        });
-       console.log(msg);
    });
 
    ws.on('close', () => {
-      console.log(`${ws} disconnected`);
+      ws.send(`${ws} Disconnected`);
    });
 });
 
 const port = process.env.PORT || 1021;
 
-server.listen(port , () => {
-     console.log("server started on port " + port);
-});
+server.listen(port);

@@ -1,4 +1,4 @@
-const ws = new WebSocket('https://render.com/docs/web-services');
+const ws = new WebSocket('wss://yapspace-h5fs.onrender.com');
 const msgdiv = document.querySelector(".TextDiv");
 const input = document.querySelector("#input");
 const send = document.querySelector("#Send");
