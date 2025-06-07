@@ -1,39 +1,15 @@
-const WebSocket = require('ws');
 const express = require('express');
 const mongoose = require('mongoose');
-const http = require('http');
 const cors = require('cors');
 require('dotenv').config();
 
 const app = express();
 const schema = require('./msgschema');
-const { ServerDescription } = require('mongodb');
 
 app.use(cors());
 app.use(express.json());
 
-const server = http.createServer(app);
-
 const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}/?retryWrites=true&w=majority&appName=Yapspace`;
-
-const wss = new WebSocket.Server({server});
-
-let message = 'Hi';
-wss.on('connection' , (ws) => {
-   console.log(`${ws}`);
-   ws.on('message' , (msg) => {
-      wss.clients.forEach((client) => {
-         if(client !== ws && client.readyState === WebSocket.OPEN){
-            client.send(`${msg}`);
-         }
-      });
-      message = `${msg}`;
-   });
-
-   ws.on('close', () => {
-      ws.send(`${ws} Disconnected`);
-   });
-});
 
 async function connect(){
     try{
@@ -64,9 +40,7 @@ app.get("/Messages" , async (req , res) => {
    }
 });  
 
-server.listen(1021 , () => {
+app.listen(3000 , () => {
     console.log("server started");
     connect();
 })
-
-module.exports = message;
