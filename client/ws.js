@@ -1,11 +1,11 @@
-// const ws = new WebSocket('wss://yapspace-kj2b.onrender.com');
+const ws = new WebSocket('wss://yapspace-9oex.onrender.com');
 
-const ws = new WebSocket('http://localhost:1021');
+// const ws = new WebSocket('http://localhost:1021');
 
 const msgdiv = document.querySelector(".TextDiv");
 const input = document.querySelector("#input");
 const send = document.querySelector("#Send");
-const url = "http://localhost:1021/Messages";
+const url = "https://yapspace-9oex.onrender.com/Messages";
 
 ws.onmessage = (e) => {
     const msg = document.createElement('p');
