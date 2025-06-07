@@ -11,6 +11,7 @@ ws.onmessage = (e) => {
     const msg = document.createElement('p');
     msg.innerText = e.data;
     msgdiv.appendChild(msg);
+    fetchMsg();
 }
 
 async function sendMsg(){
