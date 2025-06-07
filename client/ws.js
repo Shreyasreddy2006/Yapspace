@@ -5,7 +5,7 @@ const ws = new WebSocket('http://localhost:1021');
 const msgdiv = document.querySelector(".TextDiv");
 const input = document.querySelector("#input");
 const send = document.querySelector("#Send");
-const url = "http://localhost:3000/Messages";
+const url = "http://localhost:1021/Messages";
 
 ws.onmessage = (e) => {
     const msg = document.createElement('p');

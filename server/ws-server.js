@@ -64,8 +64,8 @@ app.get("/Messages" , async (req , res) => {
    }
 });  
 
-server.listen(1021 , () => {
-    console.log("server started");
+server.listen(process.env.PORT, () => {
+    console.log(`server started on port ${process.env.PORT}`);
     connect();
 })
 
