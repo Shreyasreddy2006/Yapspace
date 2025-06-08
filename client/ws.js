@@ -8,16 +8,22 @@ const send = document.querySelector("#Send");
 const url = "https://yapspace-9oex.onrender.com/Messages";
 
 ws.onmessage = (e) => {
-    const msg = document.createElement('p');
-    msg.innerText = e.data;
+    const msg = document.createElement('div');
+    msg.className = 'message received';
+    const msgContent = document.createElement('p');
+    msgContent.innerText = e.data;
+    msg.appendChild(msgContent);
     msgdiv.appendChild(msg);
     fetchMsg();
 }
 
 async function sendMsg(){
-    const umsg = document.createElement('p');
+    const umsg = document.createElement('div');
+    umsg.className = 'message sent';
+    const msgContent = document.createElement('p');
     const msg = input.value;
-    umsg.innerText = msg;
+    msgContent.innerText = msg;
+    umsg.appendChild(msgContent);
     msgdiv.appendChild(umsg);
     ws.send(`${msg}`);
     input.value = '';
@@ -60,10 +66,12 @@ async function fetchMsg(){
 
     msgs.forEach(msg => {
         const mdiv = document.createElement('div');
+        mdiv.className = 'message ' + (msg.user === localStorage.getItem("user") ? 'sent' : 'received');
 
         mdiv.innerHTML = `
-          <div>
-             <p>${msg.user} : ${msg.message}</p>
+          <div class="message-content">
+             <span class="username">${msg.user}</span>
+             <p>${msg.message}</p>
           </div>
         `;
         chatarea.appendChild(mdiv);

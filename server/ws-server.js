@@ -56,7 +56,7 @@ app.post("/Messages" , async (req,res) => {
 
 app.get("/Messages" , async (req , res) => {
    try{
-     const msgs = await schema.find().sort({time: -1});
+     const msgs = await schema.find().sort({time: 1});
      res.json(msgs);
    }catch{
       res.status(500).json({err : 'failed to fetch messages'});

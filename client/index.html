@@ -4,12 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Yapspace</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&family=Righteous&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div id="InputName">
-        <input type="text" placeholder="Your Name.." id="user">
+    <div class="container">
+        <div class="welcome-card">
+            <h1 class="title">YapSpace — let the yapping begin!</h1>
+            <div id="InputName" class="input-container">
+                <input type="text" placeholder="Your Name.." id="user" class="name-input">
+            </div>
+            <a href="chat.html" class="chat-link">
+                <button id="uok" class="enter-button">Enter Chat</button>
+            </a>
+        </div>
     </div>
-    <a href="chat.html"><button id="uok">go to chat page</button></a>
     <script>
         const u = document.querySelector('#user');
         const ok = document.querySelector('#uok');

@@ -2,18 +2,71 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Arial', sans-serif;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    background-color: #f0f2f5;
-    animation: pageLoad 0.8s ease-out;
+    min-height: 100vh;
+    background: url('images/indexbg.jpg') no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
 }
 
-@keyframes pageLoad {
+body::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 1;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    position: relative;
+    z-index: 2;
+}
+
+.welcome-card {
+    background: white;
+    padding: 2rem;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(10px);
+    text-align: center;
+    animation: fadeIn 1s ease-out;
+    max-width: 400px;
+    width: 100%;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.title {
+    color: #F5E050;
+    margin-bottom: 1.5rem;
+    font-size: 2.2rem;
+    font-family: 'Righteous', cursive;
+    animation: slideDown 0.8s ease-out;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.5px;
+}
+
+@keyframes slideDown {
     from {
         opacity: 0;
         transform: translateY(-20px);
@@ -24,14 +77,76 @@ body {
     }
 }
 
+.input-container {
+    margin-bottom: 1.5rem;
+}
+
+.name-input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+    background: white;
+}
+
+.name-input:focus {
+    border-color: #666;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.enter-button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.enter-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    background: #444;
+}
+
+.enter-button:active {
+    transform: translateY(0);
+}
+
+.chat-link {
+    text-decoration: none;
+    display: inline-block;
+}
+
+/* Responsive Design */
+@media (max-width: 480px) {
+    .welcome-card {
+        padding: 1.5rem;
+    }
+    
+    .title {
+        font-size: 1.5rem;
+    }
+    
+    .enter-button {
+        padding: 10px 25px;
+    }
+}
+
 .TextDiv {
     flex: 1;
     overflow-y: auto;
     padding: 20px;
-    background-image: url('minion.jpeg');
+    background: url('images/minionsbg.jpeg') no-repeat center center fixed;
     background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
     position: relative;
 }
 
@@ -42,97 +157,55 @@ body {
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.7);
     z-index: 1;
 }
 
 .InputDiv {
-    padding: 20px;
-    background-color: white;
-    border-top: 1px solid #e9ecef;
     display: flex;
     gap: 10px;
-    position: relative;
-    z-index: 2;
-    animation: slideUp 0.5s ease-out;
-}
-
-@keyframes slideUp {
-    from {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    padding: 20px;
+    background: white;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 #input {
-    flex: 1;
-    padding: 12px;
-    border: 1px solid #e9ecef;
-    border-radius: 25px;
-    outline: none;
-    font-size: 16px;
+    flex-grow: 1;
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
     transition: all 0.3s ease;
-    animation: inputFocus 0.5s ease-out;
-}
-
-@keyframes inputFocus {
-    0% {
-        transform: scale(0.95);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.02);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    outline: none;
 }
 
 #input:focus {
-    border-color: #0084ff;
-    box-shadow: 0 0 0 3px rgba(0, 132, 255, 0.2);
-    transform: scale(1.01);
+    border-color: #F5E050;
+    box-shadow: 0 0 10px rgba(245, 224, 80, 0.2);
 }
 
 #Send {
-    padding: 12px 25px;
-    background-color: #0084ff;
-    color: white;
+    background: #F5E050;
+    color: #333;
     border: none;
-    border-radius: 25px;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
     cursor: pointer;
-    font-size: 16px;
     transition: all 0.3s ease;
-    animation: buttonPop 0.5s ease-out;
-}
-
-@keyframes buttonPop {
-    0% {
-        transform: scale(0.8);
-        opacity: 0;
-    }
-    50% {
-        transform: scale(1.1);
-    }
-    100% {
-        transform: scale(1);
-        opacity: 1;
-    }
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
 }
 
 #Send:hover {
-    background-color: #0073e6;
-    transform: scale(1.05);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245, 224, 80, 0.3);
+    background: #f5dd42;
 }
 
 #Send:active {
-    transform: scale(0.95);
+    transform: translateY(0);
 }
 
 /* Message styling */
@@ -150,7 +223,6 @@ body {
     background-color: #0084ff;
     color: white;
     margin-left: auto;
-    border-bottom-right-radius: 5px;
 }
 
 .TextDiv p.received {
@@ -187,4 +259,122 @@ body {
 
 .TextDiv::-webkit-scrollbar-thumb:hover {
     background: #555;
+}
+
+/* Chat Page Styles */
+.chat-container {
+    max-width: 100%;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-header {
+    text-align: center;
+    padding: 20px;
+    background: rgb(243, 242, 202);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-title {
+    font-family: 'Righteous', cursive;
+    color: #F5E050;
+    font-size: 2rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    margin: 0;
+}
+
+.TextDiv {
+    flex-grow: 1;
+    background: rgb(243, 242, 202);
+    padding: 20px;
+    overflow-y: auto;
+    height: calc(100vh - 140px); /* Subtract header and input height */
+}
+
+.InputDiv {
+    display: flex;
+    gap: 10px;
+    padding: 20px;
+    background: rgb(243, 242, 202);
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.chat-input {
+    flex-grow: 1;
+    padding: 12px 20px;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.chat-input:focus {
+    border-color: #F5E050;
+    box-shadow: 0 0 10px rgba(245, 224, 80, 0.2);
+}
+
+.send-button {
+    background: #F5E050;
+    color: #333;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-family: 'Poppins', sans-serif;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 600;
+}
+
+.send-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(245, 224, 80, 0.3);
+    background: #f5dd42;
+}
+
+.send-button:active {
+    transform: translateY(0);
+}
+
+/* Message Styles */
+.message {
+    margin-bottom: 15px;
+    padding: 10px 15px;
+    border-radius: 10px;
+    max-width: 80%;
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    z-index: 2;
+}
+
+.message.sent {
+    background: #F5E050;
+    color: #333;
+    margin-left: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message.received {
+    background: rgba(255, 255, 255, 0.9);
+    color: #333;
+    margin-right: auto;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message .user {
+    font-weight: 600;
+    margin-bottom: 5px;
+    font-size: 0.9rem;
+}
+
+.message .text {
+    font-size: 1rem;
+    line-height: 1.4;
 } 

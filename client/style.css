@@ -1,0 +1,123 @@
+/* Base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(45deg, #FFD55E, #FFE5A3, #FFD55E);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Chat layout */
+.chat-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFD55E;
+    padding: 15px;
+    z-index: 1000;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.InputDiv {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #FFD55E;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+    box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+}
+
+.TextDiv {
+    margin-top: 70px; /* Height of header */
+    margin-bottom: 70px; /* Height of input div */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    height: calc(100vh - 140px); /* Account for header and input height */
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    flex: 1;
+}
+
+/* Chat Messages Styling */
+.message {
+    margin: 10px 0;
+    max-width: 80%;
+    padding: 10px 15px;
+    border-radius: 15px;
+    position: relative;
+    animation: fadeIn 0.3s ease-in-out;
+}
+
+.message.sent {
+    background-color: #FFD55E;
+    margin-left: auto;
+    border-bottom-right-radius: 5px;
+}
+
+.message.received {
+    background-color: #f0f0f0;
+    margin-right: auto;
+    border-bottom-left-radius: 5px;
+}
+
+.message-content {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.message .username {
+    font-size: 0.8em;
+    font-weight: bold;
+    color: #666;
+}
+
+.message p {
+    margin: 0;
+    word-wrap: break-word;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Add a scrollbar style for better appearance */
+.TextDiv::-webkit-scrollbar {
+    width: 8px;
+}
+
+.TextDiv::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.TextDiv::-webkit-scrollbar-thumb {
+    background: #FFD55E;
+    border-radius: 4px;
+}
+
+.TextDiv::-webkit-scrollbar-thumb:hover {
+    background: #e6c04d;
+} 
