@@ -15,6 +15,7 @@ ws.onmessage = (e) => {
     msg.appendChild(msgContent);
     msgdiv.appendChild(msg);
     fetchMsg();
+    scrollToBottom();
 }
 
 async function sendMsg(){
@@ -82,3 +83,14 @@ async function fetchMsg(){
 }
 
 fetchMsg();
+
+function scrollToBottom() {
+    const textDiv = document.querySelector('.TextDiv');
+    if (textDiv) {
+        textDiv.scrollTop = textDiv.scrollHeight;
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    scrollToBottom();
+});
