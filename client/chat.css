@@ -13,7 +13,7 @@
 /* Chat Header Styles */
 .chat-header {
     text-align: center;
-    padding: 20px;
+    padding: 15px;
     background: #F5E050;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     animation: slideDown 0.5s ease-out;
@@ -22,7 +22,7 @@
 .chat-title {
     font-family: 'Righteous', cursive;
     color: #333;
-    font-size: 2rem;
+    font-size: clamp(1.5rem, 4vw, 2rem);
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
     margin: 0;
 }
@@ -32,13 +32,13 @@
     flex: 1;
     background: url('https://platform.polygon.com/wp-content/uploads/sites/2/chorus/uploads/chorus_asset/file/6401113/c42ac6a0c2aaee69c79955d1d32c54b4_large.0.jpeg?quality=90&strip=all&crop=3.125,0,93.75,100') no-repeat center center fixed;
     background-size: cover;
-    padding: 20px;
+    padding: clamp(10px, 2vw, 20px);
     overflow-y: auto;
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 80px; /* Height of InputDiv */
+    bottom: 50px;
     animation: slideUp 0.5s ease-out;
 }
 
@@ -56,8 +56,8 @@
 /* Input Div Styles */
 .InputDiv {
     display: flex;
-    gap: 10px;
-    padding: 20px;
+    gap: clamp(5px, 2vw, 10px);
+    padding: clamp(10px, 2vw, 20px);
     background: #F5E050;
     box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
     position: fixed;
@@ -71,10 +71,10 @@
 
 .chat-input {
     flex-grow: 1;
-    padding: 12px 20px;
+    padding: clamp(8px, 2vw, 12px) clamp(10px, 2vw, 20px);
     border: 2px solid #ddd;
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
     font-family: 'Poppins', sans-serif;
     transition: all 0.3s ease;
     outline: none;
@@ -89,15 +89,16 @@
     background: #333;
     color: #F5E050;
     border: none;
-    padding: 12px 30px;
+    padding: clamp(8px, 2vw, 12px) clamp(15px, 3vw, 30px);
     border-radius: 10px;
-    font-size: 1rem;
+    font-size: clamp(0.8rem, 2vw, 1rem);
     font-family: 'Poppins', sans-serif;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
     letter-spacing: 1px;
     font-weight: 600;
+    white-space: nowrap;
 }
 
 .send-button:hover {
@@ -112,12 +113,12 @@
 
 /* Message Styles */
 .message {
-    margin-bottom: 15px;
-    padding: 10px 15px;
+    margin-bottom: clamp(10px, 2vw, 15px);
+    padding: clamp(8px, 2vw, 10px) clamp(10px, 2vw, 15px);
     border-radius: 10px;
     width: fit-content;
     min-width: 60px;
-    max-width: 80%;
+    max-width: 85%;
     font-family: 'Poppins', sans-serif;
     position: relative;
     z-index: 2;
@@ -143,14 +144,14 @@
 .message .user {
     font-weight: 600;
     margin-bottom: 5px;
-    font-size: 0.9rem;
+    font-size: clamp(0.8rem, 2vw, 0.9rem);
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .message .text {
-    font-size: 1rem;
+    font-size: clamp(0.9rem, 2vw, 1rem);
     line-height: 1.4;
     word-break: break-word;
 }
@@ -208,16 +209,44 @@
 }
 
 /* Responsive Design */
-@media (max-width: 480px) {
-    .chat-title {
-        font-size: 1.5rem;
+@media (max-width: 768px) {
+    .chat-container {
+        height: 100dvh; /* Dynamic viewport height for mobile */
     }
-    
+
+    .TextDiv {
+        bottom: 50px;
+    }
+
     .message {
         max-width: 90%;
     }
-    
+
     .send-button {
-        padding: 10px 20px;
+        padding: 8px 15px;
+    }
+}
+
+@media (min-width: 769px) {
+    .chat-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .TextDiv {
+        border-radius: 0 0 20px 20px;
+    }
+}
+
+/* Touch Device Optimizations */
+@media (hover: none) {
+    .send-button:hover {
+        transform: none;
+        box-shadow: none;
+    }
+
+    .chat-input:focus {
+        border-color: #F5E050;
+        box-shadow: none;
     }
 }
