@@ -4,7 +4,6 @@ import { AppProvider, useApp } from './context/AppContext.jsx';
 import AuthPage from './components/AuthPage.jsx';
 import ChatInterface from './components/ChatInterface.jsx';
 
-// Protected Route Component
 const ProtectedRoute = ({ children }) => {
   const { state } = useApp();
   
@@ -15,7 +14,6 @@ const ProtectedRoute = ({ children }) => {
   return children;
 };
 
-// Public Route Component (redirect if authenticated)
 const PublicRoute = ({ children }) => {
   const { state } = useApp();
   

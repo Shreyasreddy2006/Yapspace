@@ -15,7 +15,6 @@ const Login = ({ onSwitchToRegister }) => {
       ...prev,
       [name]: value
     }));
-    // Clear error when user starts typing
     if (errors[name]) {
       setErrors(prev => ({
         ...prev,
@@ -61,13 +60,11 @@ const Login = ({ onSwitchToRegister }) => {
       const data = await response.json();
       
       if (response.ok) {
-        // Login successful
         dispatch({ type: ACTIONS.SET_TOKEN, payload: data.token });
         dispatch({ type: ACTIONS.SET_USER, payload: data.user });
         dispatch({ type: ACTIONS.SET_AUTHENTICATED, payload: true });
         dispatch({ type: ACTIONS.CLEAR_ERROR });
       } else {
-        // Login failed
         dispatch({ type: ACTIONS.SET_ERROR, payload: data.error || 'Login failed' });
       }
     } catch (error) {

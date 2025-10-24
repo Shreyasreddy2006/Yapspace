@@ -45,7 +45,6 @@ const userSchema = new mongoose.Schema({
   }
 });
 
-// Hash password before saving
 userSchema.pre('save', async function(next) {
   if (!this.isModified('password')) return next();
   
@@ -58,19 +57,16 @@ userSchema.pre('save', async function(next) {
   }
 });
 
-// Compare password method
 userSchema.methods.comparePassword = async function(candidatePassword) {
   return await bcrypt.compare(candidatePassword, this.password);
 };
 
-// Update last seen when user logs in
 userSchema.methods.updateLastSeen = function() {
   this.lastSeen = new Date();
   this.isOnline = true;
   return this.save();
 };
 
-// Set user offline
 userSchema.methods.setOffline = function() {
   this.isOnline = false;
   this.lastSeen = new Date();

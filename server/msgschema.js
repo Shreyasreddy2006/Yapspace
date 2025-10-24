@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const schema = new mongoose.Schema({
-   user: String,           // Display name for chat
-   message: String,        // Message content
-   userId: {               // Reference to user ID
+   user: String,           
+   message: String,   
+   userId: {               
       type: mongoose.Schema.Types.ObjectId,
       ref: 'User',
-      required: false      // Allow legacy messages without userId
+      required: false      
    },
    time: {
       type: Date,

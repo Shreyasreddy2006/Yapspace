@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useReducer } from 'react';
 
-// Initial state
 const initialState = {
   user: null,
   token: localStorage.getItem('token') || null,
@@ -11,7 +10,6 @@ const initialState = {
   isLoading: false,
 };
 
-// Action types
 export const ACTIONS = {
   SET_USER: 'SET_USER',
   SET_TOKEN: 'SET_TOKEN',
@@ -25,7 +23,6 @@ export const ACTIONS = {
   LOGOUT: 'LOGOUT',
 };
 
-// Reducer
 const appReducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.SET_USER:
@@ -77,10 +74,8 @@ const appReducer = (state, action) => {
   }
 };
 
-// Context
 const AppContext = createContext();
 
-// Provider component
 export const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
 
@@ -91,7 +86,6 @@ export const AppProvider = ({ children }) => {
   );
 };
 
-// Custom hook to use the context
 export const useApp = () => {
   const context = useContext(AppContext);
   if (!context) {

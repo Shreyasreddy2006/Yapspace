@@ -15,39 +15,33 @@ app.use(express.json());
 
 const server = http.createServer(app);
 
-const uri = `mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_CLUSTER}/?retryWrites=true&w=majority&appName=Yapspace`;
+const uri = process.env.MONGODB_URL
 
 const wss = new WebSocket.Server({ server });
 
-// Store authenticated users
 const authenticatedUsers = new Map();
 
 wss.on('connection', async (ws, req) => {
   console.log('New WebSocket connection');
   
-  // Extract token from query parameters or headers
+
   const url = new URL(req.url, `http://${req.headers.host}`);
   const token = url.searchParams.get('token') || req.headers.authorization?.split(' ')[1];
   
   let user = null;
   
-  // Authenticate user if token is provided
   if (token) {
     try {
       const decoded = verifyToken(token);
       if (decoded) {
         user = await User.findById(decoded.userId).select('-password');
         if (user) {
-          // Store user info in WebSocket connection
           ws.user = user;
           authenticatedUsers.set(ws, user);
-          
-          // Update user online status
           await user.updateLastSeen();
           
           console.log(`Authenticated user connected: ${user.displayName}`);
-          
-          // Notify other clients about user joining
+
           wss.clients.forEach((client) => {
             if (client !== ws && client.readyState === WebSocket.OPEN) {
               client.send(JSON.stringify({
@@ -68,13 +62,12 @@ wss.on('connection', async (ws, req) => {
     try {
       const messageData = JSON.parse(msg);
       
-      // If user is authenticated, use their display name
+    
       if (ws.user) {
         messageData.user = ws.user.displayName;
         messageData.userId = ws.user._id;
       }
-      
-      // Broadcast message to all clients
+   
       const broadcastMessage = {
         type: 'message',
         user: messageData.user || 'Anonymous',
@@ -88,8 +81,7 @@ wss.on('connection', async (ws, req) => {
           client.send(JSON.stringify(broadcastMessage));
         }
       });
-      
-      // Save message to database if user is authenticated
+
       if (ws.user && messageData.message) {
         try {
           const newmsg = new schema({
@@ -111,13 +103,13 @@ wss.on('connection', async (ws, req) => {
   ws.on('close', async () => {
     console.log('WebSocket connection closed');
     
-    // If user was authenticated, set them offline and notify others
+
     if (ws.user) {
       try {
         await ws.user.setOffline();
         authenticatedUsers.delete(ws);
         
-        // Notify other clients about user leaving
+  
         wss.clients.forEach((client) => {
           if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify({
@@ -145,19 +137,15 @@ async function connect(){
     }
 }
 
-// Authentication Routes
 
-// User Registration
 app.post('/auth/register', async (req, res) => {
   try {
     const { username, email, password, displayName } = req.body;
 
-    // Validation
     if (!username || !email || !password || !displayName) {
       return res.status(400).json({ error: 'All fields are required' });
     }
 
-    // Check if user already exists
     const existingUser = await User.findOne({
       $or: [{ email }, { username }]
     });
@@ -168,7 +156,6 @@ app.post('/auth/register', async (req, res) => {
       });
     }
 
-    // Create new user
     const user = new User({
       username,
       email,
@@ -178,10 +165,8 @@ app.post('/auth/register', async (req, res) => {
 
     await user.save();
 
-    // Generate JWT token
     const token = generateToken(user._id);
 
-    // Return user data (without password) and token
     res.status(201).json({
       message: 'User registered successfully',
       token,
@@ -200,35 +185,30 @@ app.post('/auth/register', async (req, res) => {
   }
 });
 
-// User Login
 app.post('/auth/login', async (req, res) => {
   try {
     const { email, password } = req.body;
-
-    // Validation
     if (!email || !password) {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Find user by email
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Check password
+
     const isPasswordValid = await user.comparePassword(password);
     if (!isPasswordValid) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Update user online status
     await user.updateLastSeen();
 
-    // Generate JWT token
+  
     const token = generateToken(user._id);
 
-    // Return user data and token
+  
     res.json({
       message: 'Login successful',
       token,
@@ -247,7 +227,7 @@ app.post('/auth/login', async (req, res) => {
   }
 });
 
-// Get current user profile
+
 app.get('/auth/profile', authenticateToken, async (req, res) => {
   try {
     res.json({
@@ -266,7 +246,6 @@ app.get('/auth/profile', authenticateToken, async (req, res) => {
   }
 });
 
-// Logout (set user offline)
 app.post('/auth/logout', authenticateToken, async (req, res) => {
   try {
     await req.user.setOffline();
@@ -277,14 +256,13 @@ app.post('/auth/logout', authenticateToken, async (req, res) => {
   }
 });
 
-// Message Routes (now with authentication)
 app.post("/Messages", authenticateToken, async (req, res) => {
   try {
     const { message } = req.body;
     const newmsg = new schema({
-      user: req.user.displayName, // Use authenticated user's display name
+      user: req.user.displayName, 
       message,
-      userId: req.user._id // Store user ID for reference
+      userId: req.user._id =
     });
     const saved = await newmsg.save();
     res.status(201).json(saved);

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useApp, ACTIONS } from '../context/AppContext.jsx';
 
-const WS_URL = import.meta.env.VITE_WS_URL || 'wss://yapspace-9oex.onrender.com';
-const API_URL = `${import.meta.env.VITE_API_URL || 'https://yapspace-9oex.onrender.com'}/Messages`;
+const WS_URL = import.meta.env.VITE_WS_URL;
+const API_URL = `${import.meta.env.VITE_API_URL}/Messages`;
 
 export const useWebSocket = () => {
   const { state, dispatch } = useApp();
@@ -15,7 +15,6 @@ export const useWebSocket = () => {
     }
 
     try {
-      // Include token in WebSocket connection if available
       const wsUrl = state.token ? `${WS_URL}?token=${state.token}` : WS_URL;
       wsRef.current = new WebSocket(wsUrl);
       
@@ -30,7 +29,6 @@ export const useWebSocket = () => {
           const data = JSON.parse(event.data);
           
           if (data.type === 'message') {
-            // Handle regular messages
             const messageData = {
               id: Date.now(),
               user: data.user,
@@ -40,7 +38,6 @@ export const useWebSocket = () => {
             };
             dispatch({ type: ACTIONS.ADD_MESSAGE, payload: messageData });
           } else if (data.type === 'user_joined' || data.type === 'user_left') {
-            // Handle user join/leave notifications
             const notificationData = {
               id: Date.now(),
               user: 'System',
@@ -52,7 +49,6 @@ export const useWebSocket = () => {
             dispatch({ type: ACTIONS.ADD_MESSAGE, payload: notificationData });
           }
         } catch (error) {
-          // Handle legacy plain text messages
           const messageData = {
             id: Date.now(),
             text: event.data,
@@ -66,8 +62,6 @@ export const useWebSocket = () => {
       wsRef.current.onclose = () => {
         console.log('WebSocket disconnected');
         dispatch({ type: ACTIONS.SET_CONNECTION_STATUS, payload: false });
-        
-        // Attempt to reconnect after 3 seconds
         reconnectTimeoutRef.current = setTimeout(() => {
           connect();
         }, 3000);
@@ -86,7 +80,6 @@ export const useWebSocket = () => {
 
   const sendMessage = useCallback((message) => {
     if (wsRef.current?.readyState === WebSocket.OPEN) {
-      // Send message as JSON with user info
       const messageData = {
         message: message,
         user: state.user?.displayName || 'Anonymous'
