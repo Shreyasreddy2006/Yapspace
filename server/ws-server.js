@@ -262,7 +262,7 @@ app.post("/Messages", authenticateToken, async (req, res) => {
     const newmsg = new schema({
       user: req.user.displayName, 
       message,
-      userId: req.user._id =
+      userId: req.user._id
     });
     const saved = await newmsg.save();
     res.status(201).json(saved);
