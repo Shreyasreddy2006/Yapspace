@@ -10,7 +10,21 @@ const schema = require('./msgschema');
 const User = require('./userSchema');
 const { generateToken, verifyToken, authenticateToken, optionalAuth } = require('./auth');
 
-app.use(cors());
+
+const allowedOrigins = ("https://yapspace-mern.vercel.app").split(',').map(s => s.trim()).filter(Boolean);
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.length === 0) return callback(null, true);
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      return callback(null, true);
+    }
+    return callback(new Error('Not allowed by CORS'));
+  },
+  credentials: true,
+}));
+
 app.use(express.json());
 
 const server = http.createServer(app);
@@ -23,6 +37,17 @@ const authenticatedUsers = new Map();
 
 wss.on('connection', async (ws, req) => {
   console.log('New WebSocket connection');
+  // Reject websocket connections from disallowed origins when CORS_ORIGIN is set
+  const originHeader = req.headers.origin;
+  if (allowedOrigins.length > 0 && originHeader && !allowedOrigins.includes(originHeader)) {
+    console.warn(`WebSocket connection from disallowed origin: ${originHeader}`);
+    try {
+      ws.close(1008, 'Forbidden'); // Policy Violation
+    } catch (e) {
+      // ignore
+    }
+    return;
+  }
   
 
   const url = new URL(req.url, `http://${req.headers.host}`);
