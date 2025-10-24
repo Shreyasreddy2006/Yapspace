@@ -12,7 +12,7 @@ const AuthPage = () => {
     const checkAuth = async () => {
       if (state.token) {
         try {
-          const response = await fetch('https://yapspace-9oex.onrender.com/auth/profile', {
+          const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://yapspace-9oex.onrender.com'}/auth/profile`, {
             headers: {
               'Authorization': `Bearer ${state.token}`
             }

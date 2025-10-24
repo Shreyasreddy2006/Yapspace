@@ -50,7 +50,7 @@ const Login = ({ onSwitchToRegister }) => {
     dispatch({ type: ACTIONS.CLEAR_ERROR });
     
     try {
-      const response = await fetch('https://yapspace-9oex.onrender.com/auth/login', {
+      const response = await fetch(`${import.meta.env.VITE_API_URL || 'https://yapspace-9oex.onrender.com'}/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

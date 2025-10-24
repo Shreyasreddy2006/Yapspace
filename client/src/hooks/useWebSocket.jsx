@@ -1,8 +1,8 @@
 import { useEffect, useRef, useCallback } from 'react';
 import { useApp, ACTIONS } from '../context/AppContext.jsx';
 
-const WS_URL = 'wss://yapspace-9oex.onrender.com';
-const API_URL = 'https://yapspace-9oex.onrender.com/Messages';
+const WS_URL = import.meta.env.VITE_WS_URL || 'wss://yapspace-9oex.onrender.com';
+const API_URL = `${import.meta.env.VITE_API_URL || 'https://yapspace-9oex.onrender.com'}/Messages`;
 
 export const useWebSocket = () => {
   const { state, dispatch } = useApp();

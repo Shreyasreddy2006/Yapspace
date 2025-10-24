@@ -1,0 +1,18 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "ws-server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "ws-server.js"
+    }
+  ],
+  "env": {
+    "NODE_ENV": "production"
+  }
+}
