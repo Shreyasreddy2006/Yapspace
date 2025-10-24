@@ -282,9 +282,9 @@ app.get("/Messages", optionalAuth, async (req, res) => {
   }
 });  
 
-server.listen(process.env.PORT, () => {
-    console.log(`server started on port ${process.env.PORT}`);
+server.listen(process.env.PORT , () => {
+    console.log(`Server started on port ${process.env.PORT }`);
     connect();
-})
+});
 
-module.exports = message;
+module.exports = { app, server };
