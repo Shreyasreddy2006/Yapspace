@@ -29,7 +29,7 @@ app.use(express.json());
 
 const server = http.createServer(app);
 
-const uri = process.env.MONGODB_URL
+const uri = process.env.MONGODB_URL;
 
 const wss = new WebSocket.Server({ server });
 
@@ -307,9 +307,6 @@ app.get("/Messages", optionalAuth, async (req, res) => {
   }
 });  
 
-server.listen(process.env.PORT , () => {
-    console.log(`Server started on port ${process.env.PORT }`);
-    connect();
-});
+server.listen(process.env.PORT, connect);
 
 module.exports = { app, server };
