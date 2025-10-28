@@ -53,13 +53,8 @@ const ChatInterface = () => {
     dispatch({ type: ACTIONS.ADD_MESSAGE, payload: newMessage });
     setMessage('');
 
-    // Send via WebSocket
-    const wsSent = sendMessage(messageText);
-    
-    // Save to database
-    if (wsSent) {
-      await saveMessage(messageText);
-    }
+    // Send via WebSocket only
+    sendMessage(messageText);
   };
 
   const handleKeyPress = (e) => {

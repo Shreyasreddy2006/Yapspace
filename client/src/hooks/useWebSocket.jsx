@@ -156,7 +156,6 @@ export const useWebSocket = () => {
     error: state.error,
     sendMessage,
     fetchMessages,
-    saveMessage,
     reconnect: connect,
   };
 };

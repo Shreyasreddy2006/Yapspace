@@ -206,7 +206,7 @@ app.post('/auth/register', async (req, res) => {
 
   } catch (error) {
     console.error('Registration error:', error);
-    res.status(500).json({ error: error.message || 'Registration failed' });
+    res.status(500).json({ error: 'Registration failed' });
   }
 });
 
@@ -278,22 +278,6 @@ app.post('/auth/logout', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Logout error:', error);
     res.status(500).json({ error: 'Logout failed' });
-  }
-});
-
-app.post("/Messages", authenticateToken, async (req, res) => {
-  try {
-    const { message } = req.body;
-    const newmsg = new schema({
-      user: req.user.displayName, 
-      message,
-      userId: req.user._id
-    });
-    const saved = await newmsg.save();
-    res.status(201).json(saved);
-  } catch (error) {
-    console.error('Save message error:', error);
-    res.status(500).json({ error: 'Failed to save message' });
   }
 });
 
